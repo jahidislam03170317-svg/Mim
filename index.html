@@ -176,6 +176,28 @@ button {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<script>
+const photos = [
+  "photo1.jpg",
+  "photo2.jpg",
+  "photo3.jpg"
+];
+
+let index = 0;
+
+function startShow() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("scene").style.display = "flex";
+
+  const music = document.getElementById("music");
+  music.play().catch(error => {
+    console.log("Music playback failed:", error);
+  });
+
+  showPhoto();
+  setInterval(createHeart, 500);
+}
+
 function showPhoto() {
   if (index >= photos.length) {
     document.getElementById("scene").style.display = "none";
@@ -184,22 +206,27 @@ function showPhoto() {
   }
 
   const photo = document.getElementById("photo");
-
   photo.classList.remove("show");
   photo.src = photos[index];
 
-  photo.onload = function () {
+  photo.onload = function() {
     void photo.offsetWidth;
     photo.classList.add("show");
-  };
-
-  photo.onerror = function () {
-    console.log("ছবি লোড হয়নি:", photos[index]);
   };
 
   index++;
   setTimeout(showPhoto, 3000);
 }
-</script> 
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 25) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+</script>
 </body>
 </html>
