@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Memories ❤️</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #080510;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: radial-gradient(circle, #64204f, #090514);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.intro h1 {
+  font-size: 34px;
+  color: #ffb6dc;
+  margin-bottom: 15px;
+  text-shadow: 0 0 20px #ff36a6;
+}
+
+.intro p { margin-bottom: 25px; }
+
+button {
+  padding: 14px 35px;
+  border: none;
+  border-radius: 30px;
+  background: #ff3e9d;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.scene {
+  height: 100vh;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: radial-gradient(circle, #3c1745, #080510);
+}
+
+.photo {
+  position: absolute;
+  width: 88%;
+  height: 72%;
+  object-fit: contain;
+  border-radius: 18px;
+  opacity: 0;
+  transform: scale(.65);
+  box-shadow: 0 0 30px #ff39b4;
+}
+
+.photo.show {
+  animation: photoEffect 3s ease both;
+}
+
+@keyframes photoEffect {
+  0% {
+    opacity: 0;
+    transform: scale(.55) rotate(-5deg);
+    filter: blur(12px);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: blur(0);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35) translateX(-30px);
+    filter: blur(5px);
+  }
+}
+
+.caption {
+  position: absolute;
+  bottom: 7%;
+  font-size: 24px;
+  color: #ffd2e9;
+  text-shadow: 0 0 15px #ff3ca6;
+  z-index: 2;
+  text-align: center;
+}
+
+.end {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #8c245d, #10091e);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.end h1 {
+  font-size: 38px;
+  color: #ffd2ec;
+  text-shadow: 0 0 20px #ff45ae;
+  animation: pulse 1.5s infinite alternate;
+}
+
+.end p {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+@keyframes pulse {
+  to { transform: scale(1.12); }
+}
+
+.heart {
+  position: fixed;
+  top: -30px;
+  animation: fall 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro" id="intro">
+  <h1>Happy Birthday ❤️</h1>
+  <p>A Beautiful Journey of Memories</p>
+  <button onclick="startShow()">Start Surprise 🎁</button>
+</div>
+
+<div class="scene" id="scene">
+  <img class="photo" id="photo" src="" alt="Birthday memory">
+  <div class="caption">Beautiful Memories ❤️</div>
+</div>
+
+<div class="end" id="end">
+  <h1>Happy Birthday 🎂</h1>
+  <p>May your life always be filled with happiness ❤️</p>
+  <p>Lots of love! 💖</p>
+</div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const photos = [
+  "photos/photo1.jpg",
+  "photos/photo2.jpg",
+  "photos/photo3.jpg"
+];
+
+let index = 0;
+
+function startShow() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("scene").style.display = "flex";
+
+  const music = document.getElementById("music");
+  music.play();
+
+  showPhoto();
+  setInterval(createHeart, 500);
+}
+
+function showPhoto() {
+  if (index >= photos.length) {
+    document.getElementById("scene").style.display = "none";
+    document.getElementById("end").style.display = "flex";
+    return;
+  }
+
+  const photo = document.getElementById("photo");
+
+  photo.classList.remove("show");
+  void photo.offsetWidth;
+
+  photo.src = photos[index];
+  photo.classList.add("show");
+
+  index++;
+
+  setTimeout(showPhoto, 3000);
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 25) + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}
+</script>
+
+</body>
+</html>
